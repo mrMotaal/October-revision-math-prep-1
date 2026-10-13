@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>October Revision Math Prep 1</title>
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(255, 255, 255, 0.9);
+            --text-main: #0c4a6e;
+            --text-muted: #0284c7;
+            --btn-bg: #38bdf8;
+            --btn-shadow: #0284c7;
+            --btn-hover: #7dd3fc;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .btn-toggle, .solution-box { display: none !important; }
+            .question-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; margin-bottom: 20px; }
+            .student-workspace { display: block !important; }
+            header { box-shadow: none; border: none; }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 1.5rem 3rem;
+            border-radius: 30px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.1), inset 0 2px 10px rgba(255,255,255,1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #0369a1;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+            border-left: 6px solid var(--btn-bg);
+            border-radius: 4px;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 2px solid var(--card-border);
+            border-radius: 24px;
+            padding: 2.5rem 2rem 2rem 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05), inset 0 2px 8px rgba(255,255,255,0.8);
+            position: relative;
+        }
+
+        .q-number {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            background: var(--btn-bg);
+            color: white;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .student-workspace {
+            margin: 2rem 0 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .writing-line {
+            width: 100%;
+            height: 1px;
+            border-bottom: 2px dashed #bae6fd;
+        }
+
+        .btn-toggle {
+            background: var(--btn-bg);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            font-family: inherit;
+            border-radius: 16px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 var(--btn-shadow);
+            transition: all 0.1s ease;
+            outline: none;
+            margin-top: 1rem;
+        }
+
+        .btn-toggle:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0 var(--btn-shadow);
+        }
+
+        .btn-toggle:hover {
+            background: var(--btn-hover);
+        }
+
+        .solution-box {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            background: rgba(240, 249, 255, 0.8);
+            border-radius: 16px;
+            border: 2px dashed #7dd3fc;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0369a1;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>October Revision Math Prep 1</h1>
+    </header>
+
+    <div class="container" id="app"></div>
+
+    <script>
+        const revisionData = [
+            {
+                section: "Unit 1: Ratio & Proportion",
+                questions: [
+                    { q: "Complete: If two ratios are equal, then the product of the extremes = ...", a: "product of the means." },
+                    { q: "Find the value of \\(X\\) if: \\(\\frac{8}{X} = 0.5\\)", a: "\\(X = \\frac{8}{0.5} = 16\\)" },
+                    { q: "Find the value of \\(A\\) if: \\(A : 27 = 4 : 3\\)", a: "\\(A = \\frac{27 \\times 4}{3} = 36\\)" },
+                    { q: "If \\(\\frac{A-1}{8} = \\frac{12}{24}\\), find the value of \\(A\\).", a: "\\(\\frac{12}{24} = \\frac{1}{2} \\implies A - 1 = 4 \\implies A = 5\\)" },
+                    { q: "If \\(\\frac{X+2}{12} = \\frac{8}{9}\\), find the value of \\(2X\\).", a: "\\(X + 2 = \\frac{12 \\times 8}{9} = \\frac{32}{3}\\). Then multiply \\(X\\) by 2." },
+                    { q: "If \\(\\frac{2}{5} = \\frac{x}{15}\\), what is the value of \\(x+3\\)?", a: "\\(x = \\frac{2 \\times 15}{5} = 6\\). So, \\(x + 3 = 9\\)." },
+                    { q: "If \\(\\frac{18}{24} = \\frac{3}{a-1}\\), what is the value of \\(a\\)?", a: "\\(\\frac{18}{24} = \\frac{3}{4} \\implies a - 1 = 4 \\implies a = 5\\)." },
+                    { q: "If \\(15X = 20Y\\), find the ratio of \\(X\\) to \\(Y\\) and \\(Y\\) to \\(X\\) in simplest form.", a: "\\(\\frac{X}{Y} = \\frac{20}{15} = \\frac{4}{3}\\) and \\(\\frac{Y}{X} = \\frac{3}{4}\\)." },
+                    { q: "Are the following ratios proportional? \\(\\frac{300}{2}, \\frac{600}{4}, \\frac{900}{6}, \\frac{1200}{8}\\)", a: "Yes, they all simplify to 150." },
+                    { q: "Simplify the ratio: \\(\\frac{49}{14}\\)", a: "Divide by 7 to get \\(\\frac{7}{2}\\)." },
+                    { q: "Two pieces of cheese of the same kind contain 40 calories. How many calories are in 7 pieces?", a: "1 piece = 20 calories. 7 pieces = \\(7 \\times 20 = 140\\) calories." },
+                    { q: "A car consumes 2 liters of fuel to travel 22 km. How many liters are needed to travel 110 km at the same rate?", a: "\\(\\frac{2}{22} = \\frac{x}{110} \\implies x = 10\\) liters." },
+                    { q: "Solve the proportion: \\(\\frac{15}{x} = \\frac{45}{60}\\)", a: "\\(x = \\frac{15 \\times 60}{45} = 20\\)." },
+                    { q: "Ibrahim can run a distance of 60 meters in 20 seconds. If he continues at the same speed, how many seconds (X) does he need to cover 360 meters?", a: "\\(\\frac{60}{20} = \\frac{360}{X} \\implies X = 120\\) seconds." }
+                ]
+            },
+            {
+                section: "Unit 1: Drawing Scale & Percentages",
+                questions: [
+                    { q: "Determine if the drawing scale \\(5 : 1\\) represents magnification or minimization.", a: "Magnification, because the first term is greater than the second." },
+                    { q: "Which of the following scale drawings represents a minimization? (a) \\(200,000 : 1\\) (b) \\(1 : 700\\) (c) \\(50 : 1\\)", a: "(b) \\(1 : 700\\) because the drawing length is less than the real length." },
+                    { q: "A microscopic insect is magnified from \\(0.7 \\text{ mm}\\) in reality to \\(4 \\text{ cm}\\) in the drawing. Find the drawing scale.", a: "Convert \\(4 \\text{ cm}\\) to \\(40 \\text{ mm}\\). Scale = \\(40 : 0.7 = 400 : 7\\)." },
+                    { q: "The drawing length is \\(7 \\text{ cm}\\) and the real length is \\(28 \\text{ meters}\\). Find the drawing scale.", a: "Convert \\(28 \\text{ m}\\) to \\(2800 \\text{ cm}\\). Scale = \\(7 : 2800 = 1 : 400\\)." },
+                    { q: "On a map, the distance between two cities is 4 cm. If the scale drawing is \\(1 : 2,000,000\\), what is the real distance in km?", a: "Real length = \\(4 \\times 2,000,000 = 8,000,000 \\text{ cm}\\) = \\(80 \\text{ km}\\)." },
+                    { q: "The drawing scale is \\(1 : 2000\\). If the real length is 25 meters, find the drawing length in cm.", a: "Real length = 2500 cm. Drawing length = \\(\\frac{2500}{2000} = 1.25 \\text{ cm}\\)." },
+                    { q: "A drawing scale is given as \\(1 : 900,000\\). The drawing length is 11 cm. Find the real length in km.", a: "Real length = \\(11 \\times 900,000 = 9,900,000 \\text{ cm}\\) = 99 km." },
+                    { q: "If the price of an item is reduced from 2,700 LE to 2,484 LE, what is the discount rate?", a: "Discount amount = \\(2700 - 2484 = 216\\). Discount rate = \\(\\frac{216}{2700} \\times 100 = 8\\%\\)." },
+                    { q: "If the price of a chair is 2,500 LE and there is a 15% discount rate, what is the price after discount?", a: "Discount = \\(2500 \\times 0.15 = 375\\). Price after = \\(2500 - 375 = 2125 \\text{ LE}\\)." },
+                    { q: "Hazem bought a pair of shoes for 450 LE after a 10% discount. Find the original price.", a: "After discount percentage is 90%. Original price = \\(\\frac{450}{0.9} = 500 \\text{ LE}\\)." },
+                    { q: "In a restaurant, Adam ordered a lunch for 130 LE, and a 14% tax is added. What is the value of the tax and the total amount?", a: "Tax = \\(130 \\times 0.14 = 18.2 \\text{ LE}\\). Total = \\(130 + 18.2 = 148.2 \\text{ LE}\\)." }
+                ]
+            },
+            {
+                section: "Unit 1: Proportional Division",
+                questions: [
+                    { q: "Divide 300 between two persons in the ratio \\(1 : 3\\). What is the share of the smaller one?", a: "Sum of parts = 4. Value of one part = \\(\\frac{300}{4} = 75\\). Smaller share = 75." },
+                    { q: "The ratio among the length of the sides of a triangle is \\(2 : 4 : 5\\). If the smallest side is 20 cm, find the largest side.", a: "Value of one part = \\(\\frac{20}{2} = 10\\). Largest side = \\(5 \\times 10 = 50 \\text{ cm}\\)." },
+                    { q: "Divide 180 LE among three people in the ratio \\(3 : 2 : 4\\). Find each person's share.", a: "Sum of parts = 9. Part value = 20. Shares: 60 LE, 40 LE, 80 LE." },
+                    { q: "The ratio between two numbers is \\(5 : 3\\) and the difference between them is 16. What is the larger number?", a: "Difference in parts = 2. Value of part = 8. Larger number = \\(5 \\times 8 = 40\\)." },
+                    { q: "Shaimaa and Fatma invested in a project. Shaimaa paid 25,000 LE and Fatma paid 35,000 LE. If the total profit is 48,000 LE, what is Fatma's share?", a: "Ratio is \\(25 : 35 = 5 : 7\\). Sum of parts = 12. Part value = \\(\\frac{48000}{12} = 4000\\). Fatma's share = \\(7 \\times 4000 = 28,000 \\text{ LE}\\)." }
+                ]
+            },
+            {
+                section: "Sets & Subsets",
+                questions: [
+                    { q: "Choose the correct symbol (\\(\\in, \\notin, \\subset, \\not\\subset\\)) for the set \\(\\{3, 4\\}\\) and the set \\(\\{7, 2, 3, 4\\}\\).", a: "\\(\\{3, 4\\} \\subset \\{7, 2, 3, 4\\}\\)." },
+                    { q: "Choose the correct symbol for \\(\\emptyset\\) and the set \\(\\{3, 4\\}\\).", a: "\\(\\emptyset \\subset \\{3, 4\\}\\) (The empty set is a subset of any set)." },
+                    { q: "Choose the correct symbol for the element 9 and the set \\(\\{2, 8, 7\\}\\).", a: "\\(9 \\notin \\{2, 8, 7\\}\\)." },
+                    { q: "If \\(X \\in \\{2, 5, 8\\}\\) and \\(X \\neq 2, X \\neq 5\\), what is the value of \\(X\\)?", a: "\\(X = 8\\)" },
+                    { q: "If \\(\\{7, 3x\\} = \\{6, y+3\\}\\), what is the value of \\(x + y\\)?", a: "\\(3x = 6 \\implies x = 2\\). \\(y + 3 = 7 \\implies y = 4\\). So, \\(x + y = 6\\)." },
+                    { q: "If \\(B \\subset A\\), then \\(A \\cap B = \\dots\\)", a: "\\(A \\cap B = B\\) (The intersection is the smaller set)." },
+                    { q: "Find the number of subsets for the set \\(X = \\{6, 8\\}\\).", a: "\\(2^n = 2^2 = 4\\) subsets." },
+                    { q: "If \\(A = \\{7, 8, 2\\}\\) and \\(B = \\{2, 1, 3\\}\\), what is the set that represents \\(A \\cap B\\)?", a: "\\(A \\cap B = \\{2\\}\\)." },
+                    { q: "Write the set by listing method: \\(X = \\{x \\in \\mathbb{Z} \\mid x \\ge -2\\}\\).", a: "\\(X = \\{-2, -1, 0, 1, 2, \\dots \\}\\)" },
+                    { q: "Write the set by listing method: \\(X = \\{x \\in \\mathbb{N} \\mid x \\le 2\\}\\).", a: "\\(X = \\{0, 1, 2\\}\\)" }
+                ]
+            },
+            {
+                section: "Operations on Integers and Rational Numbers",
+                questions: [
+                    { q: "Complete: \\(2 + (-4) = (-4) + \\dots\\)", a: "2 (Commutative Property)" },
+                    { q: "Complete: \\(7 + \\dots = -7\\)", a: "-14" },
+                    { q: "Complete: \\(0 + \\dots = \vert{}-5\vert{}\\)", a: "5" },
+                    { q: "Complete: \\(2 + ((-3) + 4) = (2 + \\dots ) + 4\\)", a: "-3 (Associative Property)" },
+                    { q: "What is the additive inverse of 7, and the additive inverse of 0?", a: "Additive inverse of 7 is -7. Additive inverse of 0 is 0." },
+                    { q: "What is the additive identity in \\(\\mathbb{Z}\\) and \\(\\mathbb{Q}\\), and what is the multiplicative identity?", a: "Additive identity is 0. Multiplicative identity is 1." },
+                    { q: "Which number has NO multiplicative inverse?", a: "0 (Division by zero is undefined)." },
+                    { q: "Find the result: \\(-7 - (-8)\\)", a: "\\(-7 + 8 = 1\\)" },
+                    { q: "If \\(x = \vert{}-4\vert{}\\) and \\(y = -1\\), find the value of \\(xy\\).", a: "\\(x = 4\\). \\(xy = 4 \\times -1 = -4\\)." },
+                    { q: "The equation \\(7 + (-7) = 0\\) represents which property?", a: "Additive Inverse Property." },
+                    { q: "Find the multiplicative inverse of \\(35\\%\\).", a: "\\(35\\% = \\frac{7}{20}\\). Multiplicative inverse is \\(\\frac{20}{7}\\)." },
+                    { q: "What is the multiplicative inverse of \\(-7\\frac{1}{4}\\)?", a: "\\(-7\\frac{1}{4} = \\frac{-29}{4}\\). Multiplicative inverse is \\(\\frac{-4}{29}\\)." },
+                    { q: "Use commutative and associative properties to calculate: \\(-4 \\times (-8) \\times 25 \\times (-125)\\).", a: "\\((-4 \\times 25) \\times (-8 \\times -125) = (-100) \\times 1000 = -100,000\\)." },
+                    { q: "Evaluate: \\(0.\\overline{7} \\div \\frac{1}{3}\\).", a: "\\(\\frac{7}{9} \\div \\frac{1}{3} = \\frac{7}{9} \\times 3 = \\frac{7}{3}\\)." },
+                    { q: "If \\(\\frac{a}{b} = 12\\), find the value of \\(\\frac{a}{3b}\\).", a: "\\(\\frac{1}{3} \\times \\frac{a}{b} = \\frac{1}{3} \\times 12 = 4\\)." },
+                    { q: "Use the distribution property to evaluate: \\((\\frac{-4}{9} \\times 8) + (\\frac{-4}{9} \\times 9) + (\\frac{-4}{9})\\)", a: "\\(\\frac{-4}{9} \\times (8 + 9 + 1) = \\frac{-4}{9} \\times 18 = -8\\)." }
+                ]
+            },
+            {
+                section: "Algebraic Expressions",
+                questions: [
+                    { q: "Find the number of terms in the algebraic expression: \\(-7xyz\\)", a: "1 term." },
+                    { q: "Find the number of terms in the algebraic expression: \\(6n - 5n^2 - 9\\)", a: "3 terms." },
+                    { q: "Identify the constant term in the algebraic expression: \\(3X - 7y - 5Xy - 7\\)", a: "The constant term is -7." },
+                    { q: "Which of the following are like terms? (a) \\(x, -7x\\) (b) \\(5xy, 7yx^2\\)", a: "(a) \\(x\\) and \\(-7x\\) are like terms because they share the same variable and the same power." },
+                    { q: "Find the additive inverse of the expression: \\(7a - 2b + 9\\).", a: "Change all signs: \\(-7a + 2b - 9\\)." },
+                    { q: "Simplify: \\(y + y + y + y\\)", a: "\\(4y\\)" },
+                    { q: "The algebraic term \\(-5X\\) exceeds the algebraic term \\(-11X\\) by what amount?", a: "\\((-5X) - (-11X) = -5X + 11X = 6X\\)." },
+                    { q: "Simplify the expression: \\(2y + 5 - 4y - 6\\).", a: "Combine like terms: \\(-2y - 1\\)." },
+                    { q: "Find the mathematical expression representing the perimeter of a triangle with side lengths \\(4X, 4X, 5Y\\), then evaluate when \\(X=3, Y=2\\).", a: "Perimeter = \\(4X + 4X + 5Y = 8X + 5Y\\). When evaluated: \\(8(3) + 5(2) = 24 + 10 = 34\\)." }
+                ]
+            }
+        ];
+
+        const appContainer = document.getElementById('app');
+        let globalQuestionCounter = 1;
+
+        const generateWorkspace = () => {
+            let lines = '';
+            for(let i=0; i<8; i++) {
+                lines += '<div class="writing-line"></div>';
+            }
+            return `<div class="student-workspace">${lines}</div>`;
+        };
+
+        revisionData.forEach(sectionData => {
+            const sectionHeader = document.createElement('h2');
+            sectionHeader.className = 'section-title';
+            sectionHeader.textContent = sectionData.section;
+            appContainer.appendChild(sectionHeader);
+
+            sectionData.questions.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                
+                card.innerHTML = `
+                    <div class="q-number">${globalQuestionCounter}</div>
+                    <div class="question-text">${item.q}</div>
+                    ${generateWorkspace()}
+                    <button class="btn-toggle" onclick="toggleSolution(this)">Show Solution</button>
+                    <div class="solution-box">${item.a}</div>
+                `;
+                appContainer.appendChild(card);
+                globalQuestionCounter++;
+            });
+        });
+
+        function toggleSolution(btn) {
+            const solutionBox = btn.nextElementSibling;
+            if (solutionBox.style.display === "block") {
+                solutionBox.style.display = "none";
+                btn.textContent = "Show Solution";
+            } else {
+                solutionBox.style.display = "block";
+                btn.textContent = "Hide Solution";
+            }
+        }
+
+        window.onload = function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '\\(', right: '\\)', display: false}
+                ],
+                throwOnError : false
+            });
+        };
+    </script>
+</body>
+</html>
